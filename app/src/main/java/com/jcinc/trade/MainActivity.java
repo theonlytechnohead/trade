@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    private TextView textView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    textView.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_items:
-                    mTextMessage.setText("Items");
+                    textView.setText("Items");
                     return true;
                 case R.id.navigation_actions:
-                    mTextMessage.setText("Actions");
+                    textView.setText("Actions");
                     return true;
             }
             return false;
@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = findViewById(R.id.message);
+        textView = findViewById(R.id.textView);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         try {
-            mTextMessage.setText(makePostRequest(getApplicationContext(), "{ api_call: \"connect\" }"));
+            textView.setText(makePostRequest(getApplicationContext(), "{ api_call: \"connect\" }"));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
