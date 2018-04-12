@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -27,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    textView.setText(R.string.title_home);
+                    setTitleText("Home");
                     return true;
                 case R.id.navigation_items:
-                    textView.setText("Items");
+                    setTitleText("Items");
                     return true;
                 case R.id.navigation_actions:
-                    textView.setText("Actions");
+                    setTitleText("Actions");
                     return true;
             }
             return false;
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(makePostRequest(getApplicationContext(), "{ api_call: \"connect\" }"));
         } catch (IOException exception) {
             exception.printStackTrace();
+        }
+    }
+
+    private void setTitleText (String titleText) {
+        ActionBar actionBar = getSupportActionBar();
+        try {
+            actionBar.setTitle(titleText);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
