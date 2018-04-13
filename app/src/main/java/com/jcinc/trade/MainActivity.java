@@ -2,11 +2,14 @@ package com.jcinc.trade;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,6 +19,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,11 +57,19 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        try {
-            textView.setText(makePostRequest(getApplicationContext(), "{ api_call: \"connect\" }"));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                setTitleText("Home");
+                new POST().execute();
+            }
+        }.start();
+
     }
 
     private void setTitleText (String titleText) {
@@ -67,17 +81,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class POST extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground (String... params) {
+            try {
+                return makePostRequest(getApplicationContext(), "{ " +
+                        "api_call: \"login\", " +
+                        "username: \"cranderson\", " +
+                        "password: \"mranderson\" " +
+                        "}");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return "FAIL!!!";
+            }
+        }
+
+        @Override
+        protected void onPostExecute (String result) {
+            textView.setText(result);
+        }
+    }
+
     public static String makePostRequest(Context context, String payload) throws IOException {
-        URL url = new URL("anderserver.ddns.net:7248/api.php");
+        URL url = new URL("http://anderserver.ddns.net/action.php");
         HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         String line;
         StringBuffer jsonString;
         jsonString = new StringBuffer();
 
-        uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        uc.setRequestProperty("Content-Type", "application/json; charset=utf-8");
         uc.setRequestMethod("POST");
         uc.setDoInput(true);
-        uc.setInstanceFollowRedirects(false);
         uc.connect();
         OutputStreamWriter writer = new OutputStreamWriter(uc.getOutputStream(), "UTF-8");
         writer.write(payload);
