@@ -1,6 +1,25 @@
 <resources>
-    <string name="app_name">trade</string>
+    <string name="app_name">Trade</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="slide_1_title">Welcome!</string>
+    <string name="slide_1_desc">Start simple, crafting items</string>
+
+    <string name="slide_2_title">Trade</string>
+    <string name="slide_2_desc">Sell or trade your items to earn money</string>
+
+    <string name="slide_3_title">Travel</string>
+    <string name="slide_3_desc">Get out of your bedroom and meet other people</string>
+
+    <string name="slide_4_title">Community</string>
+    <string name="slide_4_desc">Find other people, and start your local virtual community</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> Apps -> Trade -> Clear data</string>
+    <string name="play_again">Play Again</string>
+
 </resources>
