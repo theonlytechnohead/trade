@@ -11,6 +11,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.sql.Connection;
@@ -28,11 +31,14 @@ public class ConnectionClass extends AppCompatActivity {
 
     private TextView textView;
 
-    String ip = "192.168.0.1";
-    String classes = "net.sorceforge.jtds.jdoc.Driver";
+    String ip = "anderserver.ddns.net";
+    String classs = "net.sorceforge.jtds.jdoc.Driver";
     String db = "trade";
     String un = "trade";
-    String password = "password";
+    String password = "d4t4b4s3TRADE";
+
+
+
 
 
     @SuppressLint("NewAp1")
@@ -49,7 +55,7 @@ public class ConnectionClass extends AppCompatActivity {
         Connection conn = null;
         String ConnURL = null;
         try{
-            Class.forName(classes);
+            Class.forName(classs);
             ConnURL = "jdbc:jtds:sqlserver://" + ip + ";" + "databaseName=" + db + ";user=" + un + ";password=" + password + ";";
             conn = DriverManager.getConnection(ConnURL);
 

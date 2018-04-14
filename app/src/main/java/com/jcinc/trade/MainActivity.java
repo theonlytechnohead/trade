@@ -19,13 +19,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.concurrent.ExecutionException;
+
+import com.jcinc.trade.ConnectionClass;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+
+    ConnectionClass connectionClass;
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,8 +65,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+        connectionClass = new ConnectionClass();
+        Connection con = connectionClass.CONN();
+
+        String query = "select * from users";
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            if(rs.next())
+            {
+                String z = "successfull";
+                textView.setText(z);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         new CountDownTimer(1000, 1000) {
             @Override
