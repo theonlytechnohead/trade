@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    setTitleText("Home");
+                    // Go to home
                     return true;
                 case R.id.navigation_items:
-                    setTitleText("Items");
+                    // Go to items
                     return true;
                 case R.id.navigation_actions:
-                    setTitleText("Actions");
+                    // Go to actions
                     return true;
             }
             return false;
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         textView = findViewById(R.id.textView);
         connectionClass = new ConnectionClass();
         Connection con = connectionClass.CONN();
@@ -110,28 +111,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+=======
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+>>>>>>> 9062264f5ad3281f0b366497f740de022a326246
     }
 
-    public class POST extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground (String... params) {
-            try {
-                return makePostRequest(getApplicationContext(), "{ " +
-                        "api_call: \"login\", " +
-                        "username: \"cranderson\", " +
-                        "password: \"mranderson\" " +
-                        "}");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return "FAIL!!!";
-            }
-        }
-
-        @Override
-        protected void onPostExecute (String result) {
-            textView.setText(result);
-        }
-    }
 
     public static String makePostRequest(Context context, String payload) throws IOException {
         URL url = new URL("http://anderserver.ddns.net/action.php");
