@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    setTitleText("Home");
+                    // Go to home
                     return true;
                 case R.id.navigation_items:
-                    setTitleText("Items");
+                    // Go to items
                     return true;
                 case R.id.navigation_actions:
-                    setTitleText("Actions");
+                    // Go to actions
                     return true;
             }
             return false;
@@ -53,54 +53,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        new CountDownTimer(1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                setTitleText("Home");
-                new POST().execute();
-            }
-        }.start();
-
     }
 
-    private void setTitleText (String titleText) {
-        ActionBar actionBar = getSupportActionBar();
-        try {
-            actionBar.setTitle(titleText);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public class POST extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground (String... params) {
-            try {
-                return makePostRequest(getApplicationContext(), "{ " +
-                        "api_call: \"login\", " +
-                        "username: \"cranderson\", " +
-                        "password: \"mranderson\" " +
-                        "}");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return "FAIL!!!";
-            }
-        }
-
-        @Override
-        protected void onPostExecute (String result) {
-            textView.setText(result);
-        }
-    }
 
     public static String makePostRequest(Context context, String payload) throws IOException {
         URL url = new URL("http://anderserver.ddns.net/action.php");
