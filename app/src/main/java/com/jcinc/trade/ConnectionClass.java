@@ -31,7 +31,7 @@ public class ConnectionClass extends AppCompatActivity {
 
     private TextView textView;
 
-    String ip = "anderserver.ddns.net";
+    String ip = "anderserver.ddns.net:3306";
     String classs = "net.sourceforge.jtds.jdbc.Driver";
     String db = "trade";
     String un = "trade";
@@ -57,9 +57,7 @@ public class ConnectionClass extends AppCompatActivity {
             ConnURL = "jdbc:jtds:sqlserver://" + ip + "; " + "databaseName=" + db + ";user=" + un + ";password=" + password + ";";
             conn = DriverManager.getConnection(ConnURL);
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
