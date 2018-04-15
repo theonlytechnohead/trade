@@ -32,7 +32,7 @@ import com.jcinc.trade.ConnectionClass;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+    public TextView textView;
 
     ConnectionClass connectionClass;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         connectionClass = new ConnectionClass();
         Connection con = connectionClass.CONN();
 
-        String query = "select * from users";
+        String query = "select * from users;";
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -76,7 +76,11 @@ public class MainActivity extends AppCompatActivity {
             if(rs.next())
             {
                 String z = "successfull";
-                textView.setText(z);
+                textView.setText("successfull");
+            }
+            else
+            {
+                textView.setText(R.string.app_name);
             }
 
         } catch (SQLException | RuntimeException e) {

@@ -28,5 +28,4 @@ public class PrefManager {
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
-
 }
