@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(z);
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
             e.printStackTrace();
         }
 
