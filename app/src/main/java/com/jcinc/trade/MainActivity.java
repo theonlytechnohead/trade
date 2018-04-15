@@ -2,14 +2,12 @@ package com.jcinc.trade;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -20,23 +18,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Queue;
-import java.util.concurrent.ExecutionException;
-
-import com.jcinc.trade.ConnectionClass;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-
-    ConnectionClass connectionClass;
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -65,24 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
-        connectionClass = new ConnectionClass();
-        Connection con = connectionClass.CONN();
-
-        String query = "select * from users";
-        try {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
-            if(rs.next())
-            {
-                String z = "successfull";
-                textView.setText(z);
-            }
-
-        } catch (SQLException | RuntimeException e) {
-            e.printStackTrace();
-        }
-
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -97,9 +68,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 setTitleText("Home");
+                ConnectionTest();
             }
         }.start();
 
+    }
+
+    public void ConnectionTest () {
+        String url = "jdbc:mysql://anderserver.ddns.net:3306/trade";
+        String username = "trade";
+        String password = "d4t4b4s3TRADE";
+
+        System.out.println("Connecting database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            textView.setText("Data connected!");
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
     }
 
     private void setTitleText (String titleText) {

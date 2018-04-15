@@ -25,9 +25,6 @@
             android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".ConnectionClass">
-
-        </activity>
     </application>
 
 </manifest>
