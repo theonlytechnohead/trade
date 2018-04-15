@@ -75,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ConnectionTest () {
+        System.out.println("Loading driver...");
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded!");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+        }
         String url = "jdbc:mysql://anderserver.ddns.net:3306/trade";
         String username = "trade";
         String password = "d4t4b4s3TRADE";
