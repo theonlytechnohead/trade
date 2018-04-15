@@ -32,7 +32,7 @@ public class ConnectionClass extends AppCompatActivity {
     private TextView textView;
 
     String ip = "anderserver.ddns.net";
-    String classs = "net.sorceforge.jtds.jdoc.Driver";
+    String classs = "net.sourceforge.jtds.jdbc.Driver";
     String db = "trade";
     String un = "trade";
     String password = "d4t4b4s3TRADE";
@@ -54,7 +54,7 @@ public class ConnectionClass extends AppCompatActivity {
         String ConnURL = null;
         try{
             Class.forName(classs);
-            ConnURL = "jdbc:jtds:sqlserver://" + ip + ";" + "databaseName=" + db + ";user=" + un + ";password=" + password + ";";
+            ConnURL = "jdbc:jtds:sqlserver://" + ip + "; " + "databaseName=" + db + ";user=" + un + ";password=" + password + ";";
             conn = DriverManager.getConnection(ConnURL);
 
         } catch (ClassNotFoundException e) {
