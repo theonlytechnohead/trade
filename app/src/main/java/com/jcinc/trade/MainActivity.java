@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
         textView = findViewById(R.id.textView);
         connectionClass = new ConnectionClass();
         Connection con = connectionClass.CONN();
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 setTitleText("Home");
-                new POST().execute();
             }
         }.start();
 
@@ -111,11 +109,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-=======
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
->>>>>>> 9062264f5ad3281f0b366497f740de022a326246
     }
 
 
