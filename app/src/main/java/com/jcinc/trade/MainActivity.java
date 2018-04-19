@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("Cannot find the driver in the classpath!", e);
         }
-        String url = "jdbc:mysql://anderserver.ddns.net:3306/trade";
-        String username = "trade";
-        String password = "d4t4b4s3TRADE";
+        String url = "jdbc:mysql://192.168.1.254:3306/trade?autoReconnect=true";
+        String username = "root";
+        String password = "MySQLd4t4b4s3";
 
         System.out.println("Connecting database...");
 
@@ -106,34 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-
-    public static String makePostRequest(Context context, String payload) throws IOException {
-        URL url = new URL("http://anderserver.ddns.net/action.php");
-        HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-        String line;
-        StringBuffer jsonString;
-        jsonString = new StringBuffer();
-
-        uc.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        uc.setRequestMethod("POST");
-        uc.setDoInput(true);
-        uc.connect();
-        OutputStreamWriter writer = new OutputStreamWriter(uc.getOutputStream(), "UTF-8");
-        writer.write(payload);
-        writer.close();
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-            while((line = br.readLine()) != null){
-                jsonString.append(line);
-            }
-            br.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        uc.disconnect();
-        return jsonString.toString();
     }
 
 }
