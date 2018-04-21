@@ -7,25 +7,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
 
-    RequestQueue queue = Volley.newRequestQueue(this);
+    //RequestQueue queue = Volley.newRequestQueue(this);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -68,38 +60,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 setTitleText("Home");
-                POST();
+                textView.setText(POST() + " Test");
             }
         }.start();
     }
 
-    public void POST () {
-        String url = "http://192.168.1.254:7248/phpinfo.php";
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-            )
-        {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String>  params = new HashMap<String, String>();
-                //params.put("api_call", "login");
-                //params.put("username", "cranderson");
-                //params.put("password", "mranderson");
-                return params;
-            }
-        };
-        queue.add(postRequest);
+
+
+
+    public String POST () {
+        String data;
+        String url = "http://35.197.91.51/api.php";
+        try {
+            Document doc = Jsoup.connect("http://35.197.91.51/api.php").get();
+            data = doc.text();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            data = String.valueOf(e.getCause());
+        }
+
+        // StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+        //        new Response.Listener<String>() {
+        //            @Override
+        //            public void onResponse(String response) {
+        //                Log.d("Response", response);
+        //            }
+        //        },
+        //        new Response.ErrorListener() {
+        //            @Override
+        //            public void onErrorResponse(VolleyError error) {
+        //                Log.d("Error.Response", error.toString());
+        //            }
+        //        }
+        //    )
+        //{
+        //    @Override
+        //    protected Map<String, String> getParams() {
+        //        Map<String, String>  params = new HashMap<String, String>();
+        //        //params.put("api_call", "login");
+        //        //params.put("username", "cranderson");
+        //        //params.put("password", "mranderson");
+        //        return params;
+        //    }
+        //};
+        //queue.add(postRequest);
+        return data;
     }
 
     private void setTitleText (String titleText) {
