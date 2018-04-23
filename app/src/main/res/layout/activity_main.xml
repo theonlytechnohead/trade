@@ -24,10 +24,6 @@
             android:layout_height="196dp"
             android:text="TEST DATABASE INFORMATION" />
 
-        <WebView
-            android:layout_width="match_parent"
-            android:layout_height="136dp" />
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"

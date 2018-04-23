@@ -103,44 +103,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String POST () {
-        textView.setText(docFinal.text());
-        //String data;
-        //String url = "http://35.197.91.51/api.php";
-        //try {
-        //    Document doc = Jsoup.connect("http://35.197.91.51/api.php").get();
-        //    data = doc.text();
-        //}
-        //catch (Exception e){
-        //    e.printStackTrace();
-        //    data = String.valueOf(e.getCause());
-        //}
 
-        // StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-        //        new Response.Listener<String>() {
-        //            @Override
-        //            public void onResponse(String response) {
-        //                Log.d("Response", response);
-        //            }
-        //        },
-        //        new Response.ErrorListener() {
-        //            @Override
-        //            public void onErrorResponse(VolleyError error) {
-        //                Log.d("Error.Response", error.toString());
-        //            }
-        //        }
-        //    )
-        //{
-        //    @Override
-        //    protected Map<String, String> getParams() {
-        //        Map<String, String>  params = new HashMap<String, String>();
-        //        //params.put("api_call", "login");
-        //        //params.put("username", "cranderson");
-        //        //params.put("password", "mranderson");
-        //        return params;
-        //    }
-        //};
-        //queue.add(postRequest);
-        //return data;
+        // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
+        //textView.setText(docFinal.text());
+
+
+
         return null;
     }
 
