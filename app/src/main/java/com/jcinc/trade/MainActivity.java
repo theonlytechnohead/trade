@@ -102,14 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public String POST () {
-
+    public void POST () {
         // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
-        //textView.setText(docFinal.text());
-
-
-
-        return null;
+        textView.setText(docFinal.text());
     }
 
 
