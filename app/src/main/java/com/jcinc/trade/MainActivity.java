@@ -21,9 +21,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
     public  Document docFinal;
 
     //RequestQueue queue = Volley.newRequestQueue(this);
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected Document doInBackground(Object[] objects) {
-                Document doc = null;
+                Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
 
@@ -109,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item("Wood", "76adfs", R.drawable.ic_notifications_black_24dp));
         items.add(new Item("Paper", "9a8sf7", R.drawable.ic_notifications_black_24dp));
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ItemAdaptor(items);
+        RecyclerView.Adapter adapter = new ItemAdaptor(items);
         recyclerView.setAdapter(adapter);
     }
 
@@ -125,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     private void setTitleText (String titleText) {
         ActionBar actionBar = getSupportActionBar();
         try {
+            assert actionBar != null;
             actionBar.setTitle(titleText);
         } catch (NullPointerException e) {
             e.printStackTrace();

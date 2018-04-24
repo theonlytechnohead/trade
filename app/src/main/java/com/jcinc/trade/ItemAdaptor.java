@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder> {
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView itemName;
         TextView itemID;
@@ -20,14 +20,14 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
 
         ItemViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cardView);
-            itemName = (TextView)itemView.findViewById(R.id.item_name);
-            itemID = (TextView)itemView.findViewById(R.id.item_id);
-            itemImage = (ImageView)itemView.findViewById(R.id.item_image);
+            cv = itemView.findViewById(R.id.cardView);
+            itemName = itemView.findViewById(R.id.item_name);
+            itemID = itemView.findViewById(R.id.item_id);
+            itemImage = itemView.findViewById(R.id.item_image);
         }
     }
 
-    List<Item> items;
+    private List<Item> items;
     ItemAdaptor(List<Item> items) {
         this.items = items;
     }
@@ -39,14 +39,13 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_layout, viewGroup, false);
-        ItemViewHolder itemViewHolder = new ItemViewHolder(view);
-        return itemViewHolder;
+        return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
         itemViewHolder.itemName.setText(items.get(i).name);
         itemViewHolder.itemID.setText(items.get(i).id);
         itemViewHolder.itemImage.setImageResource(items.get(i).image);
