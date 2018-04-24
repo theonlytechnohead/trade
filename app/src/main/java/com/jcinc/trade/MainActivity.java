@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item("Wood", "76adfs", R.drawable.ic_notifications_black_24dp));
-        items.add(new Item("Paper", "9a8sf7", R.drawable.ic_notifications_black_24dp));
+        items.add(new Item("Wood", "76adfs", R.drawable.ic_launcher_background));
+        items.add(new Item("Paper", "9a8sf7", R.drawable.ic_launcher_background));
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
