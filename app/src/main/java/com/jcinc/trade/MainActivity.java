@@ -16,6 +16,8 @@ import android.widget.TextView;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
@@ -103,15 +105,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
+        ArrayList<Item> items = new ArrayList<>();
+        items.add(new Item("Wood", "76adfs", R.drawable.ic_notifications_black_24dp));
+        items.add(new Item("Paper", "9a8sf7", R.drawable.ic_notifications_black_24dp));
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ItemAdaptor(new String[]{"Test1", "test2", "test 3"});
+        adapter = new ItemAdaptor(items);
         recyclerView.setAdapter(adapter);
     }
-
-
-
 
     public void POST () {
         // Set text to the outcome of the php sql request. BELOW -IS- WORKING!

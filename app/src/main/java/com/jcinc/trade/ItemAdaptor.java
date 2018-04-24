@@ -1,48 +1,59 @@
 package com.jcinc.trade;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ViewHolder> {
-    private String[] dataSet;
+import java.util.List;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView textView;
-        public ViewHolder(TextView view) {
-            super(view);
-            textView = view;
+public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder> {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        CardView cv;
+        TextView itemName;
+        TextView itemID;
+        ImageView itemImage;
+
+        ItemViewHolder(View itemView) {
+            super(itemView);
+            cv = (CardView)itemView.findViewById(R.id.cardView);
+            itemName = (TextView)itemView.findViewById(R.id.item_name);
+            itemID = (TextView)itemView.findViewById(R.id.item_id);
+            itemImage = (ImageView)itemView.findViewById(R.id.item_image);
         }
     }
 
-    public ItemAdaptor(String[] data) {
-        dataSet = data;
+    List<Item> items;
+    ItemAdaptor(List<Item> items) {
+        this.items = items;
     }
 
-    // Create new views (invoked by the layout manager)
-    @NonNull
-    @Override
-    public ItemAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.setText(dataSet[position]);
-    }
-
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return dataSet.length;
+        return items.size();
+    }
+
+    @NonNull
+    @Override
+    public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_layout, viewGroup, false);
+        ItemViewHolder itemViewHolder = new ItemViewHolder(view);
+        return itemViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
+        itemViewHolder.itemName.setText(items.get(i).name);
+        itemViewHolder.itemID.setText(items.get(i).id);
+        itemViewHolder.itemImage.setImageResource(items.get(i).image);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }
