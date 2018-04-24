@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -17,6 +19,9 @@ import org.jsoup.nodes.Document;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
     public  Document docFinal;
 
     //RequestQueue queue = Volley.newRequestQueue(this);
@@ -97,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 setTitleText("Home");
             }
         }.start();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ItemAdaptor(new String[]{"Test1", "test2", "test 3"});
+        recyclerView.setAdapter(adapter);
     }
 
 
