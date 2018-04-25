@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,13 +26,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     public Document docFinal;
     ArrayList<Item> items = new ArrayList<>();
+    ViewPager viewPager;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    // Go to home
+                    viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_items:
-                    // Go to items
+                    viewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_actions:
-                    // Go to actions
+                    viewPager.setCurrentItem(2);
                     return true;
             }
             return false;
@@ -55,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+
+        viewPager = findViewById(R.id.viewpager);
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(new HomeLayoutFragment());
+        pagerAdapter.addFragment(new ItemLayoutFragment());
+        pagerAdapter.addFragment(new ActionLayoutFragment());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.beginFakeDrag();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -129,4 +144,25 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> fragmentList = new ArrayList<>();
+
+        public ViewPagerAdapter (FragmentManager manager) {
+            super(manager);
+        }
+        @Override
+        public Fragment getItem (int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount () {
+            return fragmentList.size();
+        }
+
+        public void addFragment (Fragment fragment) {
+            fragmentList.add(fragment);
+        }
+
+    }
 }
