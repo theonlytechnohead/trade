@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/craft_button"
             android:layout_toEndOf="@id/item_image"
+            android:layout_toStartOf="@id/sell_button"
             android:layout_alignParentBottom="true"
             android:text="@string/craft_button"/>
         <Button
