@@ -24,13 +24,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
     public Document docFinal;
     ArrayList<Item> items = new ArrayList<>();
     ViewPager viewPager;
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_items:
                     viewPager.setCurrentItem(1);
+                    SetupRecyclerView();
+                    Connect();
                     return true;
                 case R.id.navigation_actions:
                     viewPager.setCurrentItem(2);
@@ -61,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
-
         viewPager = findViewById(R.id.viewpager);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new HomeLayoutFragment());
@@ -74,8 +74,30 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                setTitleText("Home");
+            }
+        }.start();
+    }
+
+    public void SetupRecyclerView () {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.Adapter adapter = new ItemAdaptor(items);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void Connect () {
         final String url = "http://35.197.91.51/api.php";
-        AsyncTask postTask = new AsyncTask() {
+        @SuppressLint("StaticFieldLeak") AsyncTask postTask = new AsyncTask() {
 
             @Override
             protected Document doInBackground(Object[] objects) {
@@ -93,36 +115,19 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Object result) {
                 if (result != null) {
                     docFinal = (Document) result;
-                    POST(docFinal.text());
+                    POST();
                 }
             }
         };
         postTask.execute();
-
-        new CountDownTimer(1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                setTitleText("Home");
-            }
-        }.start();
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new ItemAdaptor(items);
-        recyclerView.setAdapter(adapter);
     }
 
-    public void POST (String result) {
+    public void POST () {
         // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
-        textView.setText(result); // If I comment out this line, the whole try/catch block don't work!??!
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(docFinal.text()); // If I comment out this line, the whole try/catch block don't work!??!
         try {
-            JSONArray jsonArray = new JSONArray(result);
+            JSONArray jsonArray = new JSONArray(docFinal.text());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
@@ -147,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     public class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
 
-        public ViewPagerAdapter (FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
         @Override
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             return fragmentList.size();
         }
 
-        public void addFragment (Fragment fragment) {
+        void addFragment(Fragment fragment) {
             fragmentList.add(fragment);
         }
 
