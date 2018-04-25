@@ -62,16 +62,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         viewPager = findViewById(R.id.viewpager);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new HomeLayoutFragment());
         pagerAdapter.addFragment(new ItemLayoutFragment());
         pagerAdapter.addFragment(new ActionLayoutFragment());
         viewPager.setAdapter(pagerAdapter);
-        viewPager.beginFakeDrag();
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    navigation.setSelectedItemId(R.id.navigation_home);
+                } else if (position == 1) {
+                    navigation.setSelectedItemId(R.id.navigation_items);
+                } else if (position == 2) {
+                    navigation.setSelectedItemId(R.id.navigation_actions);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         new CountDownTimer(1000, 1000) {
             @Override
@@ -118,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void DisplayItems() throws JSONException {
+        items.clear();
         JSONArray jsonArray = new JSONArray(docFinal.text());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
