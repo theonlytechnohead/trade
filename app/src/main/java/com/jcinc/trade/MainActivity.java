@@ -9,8 +9,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,14 +112,14 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Object result) {
                 if (result != null) {
                     docFinal = (Document) result;
-                    POST();
+                    DisplayItems();
                 }
             }
         };
         postTask.execute();
     }
 
-    public void POST () {
+    public void DisplayItems() {
         // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
         TextView textView = findViewById(R.id.textView);
         textView.setText(docFinal.text()); // If I comment out this line, the whole try/catch block don't work!??!
