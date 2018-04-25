@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public Document docFinal;
     ArrayList<Item> items = new ArrayList<>();
     ViewPager viewPager;
+    ViewPagerAdapter pagerAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_items:
                     viewPager.setCurrentItem(1);
-                    SetupRecyclerView();
                     Connect();
                     return true;
                 case R.id.navigation_actions:
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = findViewById(R.id.viewpager);
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new HomeLayoutFragment());
         pagerAdapter.addFragment(new ItemLayoutFragment());
         pagerAdapter.addFragment(new ActionLayoutFragment());
@@ -112,26 +112,24 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Object result) {
                 if (result != null) {
                     docFinal = (Document) result;
-                    DisplayItems();
+                    try {
+                        DisplayItems();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
         postTask.execute();
     }
 
-    public void DisplayItems() {
-        // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
-        TextView textView = findViewById(R.id.textView);
-        textView.setText(docFinal.text()); // If I comment out this line, the whole try/catch block don't work!??!
-        try {
-            JSONArray jsonArray = new JSONArray(docFinal.text());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public void DisplayItems() throws JSONException {
+        JSONArray jsonArray = new JSONArray(docFinal.text());
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
         }
+        SetupRecyclerView();
     }
 
     private void setTitleText (String titleText) {
