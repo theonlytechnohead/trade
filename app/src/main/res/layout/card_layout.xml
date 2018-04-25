@@ -43,13 +43,13 @@
             android:id="@+id/craft_button"
             android:layout_toEndOf="@id/item_image"
             android:layout_alignParentBottom="true"
-            android:text="Craft"/>
+            android:text="@string/craft_button"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sell_button"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:text="Sell"/>
+            android:text="@string/sell_button"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
