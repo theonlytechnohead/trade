@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -84,14 +86,6 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    public void SetupRecyclerView () {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new ItemAdaptor(items);
-        recyclerView.setAdapter(adapter);
-    }
-
     public void Connect () {
         final String url = "http://35.197.91.51/api.php";
         @SuppressLint("StaticFieldLeak") AsyncTask postTask = new AsyncTask() {
@@ -130,6 +124,20 @@ public class MainActivity extends AppCompatActivity {
             items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
         }
         SetupRecyclerView();
+    }
+
+    public void SetupRecyclerView () {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.Adapter adapter = new ItemAdaptor(items);
+        recyclerView.setAdapter(adapter);
+        HideProgressBar();
+    }
+
+    public void HideProgressBar () {
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void setTitleText (String titleText) {
