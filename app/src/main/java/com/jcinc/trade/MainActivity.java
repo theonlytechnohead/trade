@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
         swipeRefreshLayout.setRefreshing(false);
     }
 
