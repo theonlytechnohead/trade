@@ -13,17 +13,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-    public  Document docFinal;
-
-    //RequestQueue queue = Volley.newRequestQueue(this);
+    public Document docFinal;
+    ArrayList<Item> items = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,38 +60,29 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         final String url = "http://35.197.91.51/api.php";
-
-        AsyncTask execute = new AsyncTask() {
+        AsyncTask postTask = new AsyncTask() {
 
             @Override
             protected Document doInBackground(Object[] objects) {
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
-
                 } catch (Exception e) {
+                    e.printStackTrace();
                     doc = null;
                 }
-
                 return doc;
             }
 
             @Override
             protected void onPostExecute(Object result) {
                 if (result != null) {
-                    textView.setText("Loading website");
                     docFinal = (Document) result;
-                    POST();
-
-                } else {
-                    textView.setText("Error");
+                    POST(docFinal.text());
                 }
             }
-
         };
-
-        execute.execute();
-
+        postTask.execute();
 
         new CountDownTimer(1000, 1000) {
             @Override
@@ -102,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item("Wood", "76adfs", R.drawable.ic_launcher_background));
-        items.add(new Item("Paper", "9a8sf7", R.drawable.ic_launcher_background));
-
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -113,11 +103,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void POST () {
+    public void POST (String result) {
         // Set text to the outcome of the php sql request. BELOW -IS- WORKING!
-        textView.setText(docFinal.text());
+        textView.setText(result); // If I comment out this line, the whole try/catch block don't work!??!
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-
 
     private void setTitleText (String titleText) {
         ActionBar actionBar = getSupportActionBar();
