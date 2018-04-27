@@ -49,9 +49,22 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
         itemViewHolder.itemName.setText(items.get(i).name);
-        itemViewHolder.itemCondition.setText(items.get(i).condition);
+        itemViewHolder.itemCondition.setText(convertCondtion(items.get(i).condition));
         itemViewHolder.itemID.setText(items.get(i).id);
         itemViewHolder.itemImage.setImageResource(items.get(i).image);
+    }
+
+    private String convertCondtion (int condition) {
+        if (100 >= condition && condition > 75) {
+            return "Good condition";
+        } else if (condition > 50) {
+            return "Used";
+        } else if (condition > 25) {
+            return "Damaged";
+        } else if (condition > 1) {
+            return "Breaking";
+        }
+        return "";
     }
 
     @Override

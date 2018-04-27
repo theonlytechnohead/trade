@@ -46,13 +46,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     viewPager.setCurrentItem(0);
+                    setTitleText("Home");
                     return true;
                 case R.id.navigation_items:
                     viewPager.setCurrentItem(1);
                     Connect();
+                    setTitleText("Items");
                     return true;
                 case R.id.navigation_actions:
                     viewPager.setCurrentItem(2);
+                    setTitleText("Actions");
                     return true;
             }
             return false;
