@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         JSONArray jsonArray = new JSONArray(docFinal.text());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            items.add(new Item(jsonObject.getString("item_name"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
+            items.add(new Item(jsonObject.getString("item_name"), jsonObject.getInt("item_condition"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
         }
         SetupRecyclerView();
     }

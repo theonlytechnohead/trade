@@ -15,6 +15,7 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView itemName;
+        TextView itemCondition;
         TextView itemID;
         ImageView itemImage;
 
@@ -22,6 +23,7 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
             super(itemView);
             cv = itemView.findViewById(R.id.cardView);
             itemName = itemView.findViewById(R.id.item_name);
+            itemCondition = itemView.findViewById(R.id.item_condition);
             itemID = itemView.findViewById(R.id.item_id);
             itemImage = itemView.findViewById(R.id.item_image);
         }
@@ -47,6 +49,7 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
         itemViewHolder.itemName.setText(items.get(i).name);
+        itemViewHolder.itemCondition.setText(items.get(i).condition);
         itemViewHolder.itemID.setText(items.get(i).id);
         itemViewHolder.itemImage.setImageResource(items.get(i).image);
     }
