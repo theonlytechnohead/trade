@@ -26,5 +26,7 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> Apps -> Trade -> Clear data</string>
     <string name="play_again">Play Again</string>
+    
+    <string name="result_text_default">Please focus camera to QR Code</string>
 
 </resources>
