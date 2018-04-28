@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 case R.id.navigation_home:
                     viewPager.setCurrentItem(0);
                     setTitleText("Home");
+                    QRCodeSetup();
                     return true;
                 case R.id.navigation_items:
                     viewPager.setCurrentItem(1);
@@ -82,35 +83,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     };
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case RequestCameraPermissionID: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        
-
-                        return;
-                    }
-                    try {
-                        cameraSource.start(cameraPreview.getHolder());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        final BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+    public void QRCodeSetup () {
         cameraPreview = findViewById(R.id.cameraPreview);
         txtResult = findViewById(R.id.txtResult);
 
@@ -170,6 +143,39 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 });
             }
         });
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case RequestCameraPermissionID: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        
+
+                        return;
+                    }
+                    try {
+                        cameraSource.start(cameraPreview.getHolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
 
         viewPager = findViewById(R.id.viewpager);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
