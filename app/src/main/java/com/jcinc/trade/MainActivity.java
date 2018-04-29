@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case RequestCameraPermissionID: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        
-
                         return;
                     }
                     try {
