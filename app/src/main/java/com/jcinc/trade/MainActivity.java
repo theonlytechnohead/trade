@@ -40,6 +40,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public Document docFinal;
     ArrayList<Item> items = new ArrayList<>();
+    ArrayList<Item> selectedItem = new ArrayList<>();
     ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 case R.id.navigation_actions:
                     viewPager.setCurrentItem(2);
                     setTitleText("Actions");
+                    setupActionRecylerView();
                     return true;
             }
             return false;
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
-        new CountDownTimer(1000, 1000) {
+        new CountDownTimer(250, 250) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -311,8 +314,31 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void goToActions(String itemId) {
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.navigation_actions);
-        TextView actionId = findViewById(R.id.action_id);
-        actionId.setText(itemId);
+        selectedItem.clear();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).id.equals(itemId)) {
+                selectedItem.add(new Item(
+                        items.get(i).name,
+                        items.get(i).condition,
+                        items.get(i).id,
+                        R.drawable.ic_launcher_background)
+                );
+            }
+        }
+    }
+
+    public void setupActionRecylerView () {
+        RecyclerView action_recyclerView = findViewById(R.id.action_recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        action_recyclerView.setLayoutManager(layoutManager);
+        ItemAdaptor adapter = new ItemAdaptor(selectedItem);
+        adapter.setOnItemClickListener(new ItemAdaptor.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Nada
+            }
+        });
+        action_recyclerView.setAdapter(adapter);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
