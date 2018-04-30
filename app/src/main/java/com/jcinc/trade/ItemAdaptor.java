@@ -1,6 +1,7 @@
 package com.jcinc.trade;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,16 @@ import android.widget.TextView;
 import java.util.List;
 
 public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder> {
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener (OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView itemName;
@@ -19,17 +30,23 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
         TextView itemID;
         ImageView itemImage;
 
-        ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             cv = itemView.findViewById(R.id.cardView);
             itemName = itemView.findViewById(R.id.item_name);
             itemCondition = itemView.findViewById(R.id.item_condition);
             itemID = itemView.findViewById(R.id.item_id);
             itemImage = itemView.findViewById(R.id.item_image);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
                 }
             });
         }
@@ -49,7 +66,7 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_layout, viewGroup, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, listener);
     }
 
     @Override

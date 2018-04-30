@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -175,11 +176,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         final BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
 
         viewPager = findViewById(R.id.viewpager);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -273,7 +271,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new ItemAdaptor(items);
+        ItemAdaptor adapter = new ItemAdaptor(items);
+        adapter.setOnItemClickListener(new ItemAdaptor.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                goToActions();
+            }
+        });
         recyclerView.setAdapter(adapter);
         HideProgressBar();
     }
@@ -302,6 +306,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         Connect();
+    }
+
+    public void goToActions () {
+        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        navigationView.setSelectedItemId(R.id.navigation_actions);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
