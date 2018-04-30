@@ -271,11 +271,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        ItemAdaptor adapter = new ItemAdaptor(items);
+        final ItemAdaptor adapter = new ItemAdaptor(items);
         adapter.setOnItemClickListener(new ItemAdaptor.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                goToActions();
+                goToActions(adapter.itemID(position));
             }
         });
         recyclerView.setAdapter(adapter);
@@ -308,9 +308,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Connect();
     }
 
-    public void goToActions () {
+    public void goToActions(String itemId) {
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.navigation_actions);
+        TextView actionId = findViewById(R.id.action_id);
+        actionId.setText(itemId);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

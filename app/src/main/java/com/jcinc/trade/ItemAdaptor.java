@@ -23,6 +23,10 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
         this.listener = listener;
     }
 
+    public String itemID (int position) {
+        return items.get(position).id;
+    }
+
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView itemName;

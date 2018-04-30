@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/action_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Actions" />
