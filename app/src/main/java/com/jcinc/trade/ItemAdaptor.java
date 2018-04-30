@@ -26,6 +26,12 @@ public class ItemAdaptor extends RecyclerView.Adapter<ItemAdaptor.ItemViewHolder
             itemCondition = itemView.findViewById(R.id.item_condition);
             itemID = itemView.findViewById(R.id.item_id);
             itemImage = itemView.findViewById(R.id.item_image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
         }
     }
 

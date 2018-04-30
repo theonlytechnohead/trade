@@ -87,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cameraPreview = findViewById(R.id.cameraPreview);
         txtResult = findViewById(R.id.txtResult);
 
-        barcodeDetector = new BarcodeDetector.Builder(  this)
+        barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
         cameraSource = new CameraSource
                 .Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(1080, 1920)
+                .setRequestedFps(30.0f)
                 .build();
 
         //Add Event
@@ -107,11 +108,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             new String[]{android.Manifest.permission.CAMERA}, RequestCameraPermissionID);
                     return;
                 }
-                try {
-                    cameraSource.start(cameraPreview.getHolder());
-                } catch (IOException e) {
-                    cameraSource.stop();
-                }
             }
 
             @Override
@@ -124,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             }
         });
+
+        try {
+            cameraSource.start(cameraPreview.getHolder());
+        } catch (IOException | RuntimeException e) {
+            cameraSource.stop();
+        }
 
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
@@ -217,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onFinish() {
                 setTitleText("Home");
+                QRCodeSetup();
             }
         }.start();
     }
