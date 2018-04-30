@@ -7,10 +7,7 @@
     android:layout_marginEnd="16dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?attr/selectableItemBackground">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,6 +52,15 @@
             android:layout_toEndOf="@id/item_image"
             android:text="@string/item_id"
             android:textColor="#50000000" />
+
+        <Button
+            android:id="@+id/craft_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/craft_button"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/item_image"/>
+
 
     </RelativeLayout>
     

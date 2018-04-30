@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(
+                        getApplicationContext(),
+                        android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // Request permission
                     ActivityCompat.requestPermissions(MainActivity.this,
                             new String[]{android.Manifest.permission.CAMERA}, RequestCameraPermissionID);
@@ -151,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         switch (requestCode) {
             case RequestCameraPermissionID: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(
+                            this,
+                            android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                     try {
@@ -253,7 +257,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         JSONArray jsonArray = new JSONArray(docFinal.text());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            items.add(new Item(jsonObject.getString("item_name"), jsonObject.getInt("item_condition"), jsonObject.getString("item_id"), R.drawable.ic_launcher_background));
+            items.add(new Item(
+                    jsonObject.getString("item_name"),
+                    jsonObject.getInt("item_condition"),
+                    jsonObject.getString("item_id"),
+                    R.drawable.ic_launcher_background));
         }
         SetupRecyclerView();
     }

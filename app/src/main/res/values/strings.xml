@@ -8,6 +8,7 @@
     <string name="item_name">Item name</string>
     <string name="item_condition">Good condition</string>
     <string name="item_id">Item id</string>
+    <string name="craft_button">Craft</string>
 
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
