@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public Document docFinal;
     ArrayList<Item> items = new ArrayList<>();
     ArrayList<Item> selectedItem = new ArrayList<>();
+
+    ArrayList<Item> myItems = new ArrayList<>();
+
     ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     PrefManager prefManager;
     String userId;
     FirebaseAuth auth;
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -287,7 +292,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     jsonObject.getString("item_name"),
                     jsonObject.getInt("item_condition"),
                     jsonObject.getString("item_id"),
-                    R.drawable.ic_launcher_background));
+                    R.drawable.ic_launcher_background,
+                    jsonObject.getString("user")));
+
+        }
+        for (int i = 0; i < items.size(); i++){
+            if(items.get(i).item_user_id.equals(userId)){
+                myItems.add(items.get(i));
+            }
         }
         SetupRecyclerView();
     }
@@ -296,7 +308,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        final ItemAdaptor adapter = new ItemAdaptor(items);
+
+        final ItemAdaptor adapter = new ItemAdaptor(myItems);
+
         adapter.setOnItemClickListener(new ItemAdaptor.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -343,7 +357,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         items.get(i).name,
                         items.get(i).condition,
                         items.get(i).id,
-                        R.drawable.ic_launcher_background)
+                        R.drawable.ic_launcher_background,
+                        items.get(i).item_user_id)
                 );
             }
         }
