@@ -13,10 +13,6 @@ bin/
 gen/
 out/
 
-# Gradle files
-.gradle/
-build/
-
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -53,6 +49,5 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-.idea/caches/build_file_checksums.ser
 .idea/misc.xml
 *.ser
