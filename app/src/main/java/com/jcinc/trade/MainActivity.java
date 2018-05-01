@@ -32,6 +32,7 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
+
+    PrefManager prefManager;
+    String userId;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -181,6 +185,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         setContentView(R.layout.activity_main);
         final BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        prefManager = new PrefManager(this);
+        if (!prefManager.isFirstTimeLaunch()) {
+            userId = FirebaseInstanceId.getInstance().getId();
+            prefManager.setUserId(userId);
+        } else {
+            userId = prefManager.getUserId();
+        }
 
         viewPager = findViewById(R.id.viewpager);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

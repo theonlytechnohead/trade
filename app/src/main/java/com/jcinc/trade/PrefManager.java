@@ -11,7 +11,7 @@ public class PrefManager {
     private int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "androidhive-welcome";
+    private static final String PREF_NAME = "app-welcome";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
@@ -23,6 +23,15 @@ public class PrefManager {
     public void setFirstTimeLaunch(boolean isFirstTime) {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
+    }
+
+    public void setUserId (String id) {
+        editor.putString("UserId", id);
+        editor.commit();
+    }
+
+    public String getUserId () {
+        return pref.getString("UserId", "");
     }
 
     public boolean isFirstTimeLaunch() {
