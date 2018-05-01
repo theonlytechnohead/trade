@@ -361,6 +361,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
         action_recyclerView.setAdapter(adapter);
+        TextView UIDtext = findViewById(R.id.UIDtext);
+        UIDtext.setText(userId);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
