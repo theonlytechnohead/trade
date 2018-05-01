@@ -302,6 +302,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 myItems.add(items.get(i));
             }
         }
+        if(myItems.size() <= 0){
+            myItems.add(new Item(
+                    "Nothing",
+                    0,
+                    "",
+                    R.drawable.ic_home_black_24dp,
+                    userId));
+        }
         SetupRecyclerView();
     }
 
