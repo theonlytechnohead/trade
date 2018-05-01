@@ -285,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void DisplayItems() throws JSONException {
         items.clear();
+        myItems.clear();
         JSONArray jsonArray = new JSONArray(docFinal.text());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
