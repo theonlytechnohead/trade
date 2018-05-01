@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -27,12 +26,17 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +45,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     PrefManager prefManager;
     String userId;
-
+    FirebaseAuth auth;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -187,12 +190,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
-            userId = FirebaseInstanceId.getInstance().getId();
-            prefManager.setUserId(userId);
-        } else {
-            userId = prefManager.getUserId();
-        }
+        auth = FirebaseAuth.getInstance();
+        auth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+                    if (currentFirebaseUser != null) {
+                        userId = currentFirebaseUser.getUid();
+                        prefManager.setUserId(userId);
+                    }
+                }
+            }
+        });
 
         viewPager = findViewById(R.id.viewpager);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

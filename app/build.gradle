@@ -34,5 +34,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'com.google.android.gms:play-services-vision:15.0.0'
     implementation 'com.google.firebase:firebase-core:15.0.0'
+    implementation 'com.google.firebase:firebase-auth:15.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
