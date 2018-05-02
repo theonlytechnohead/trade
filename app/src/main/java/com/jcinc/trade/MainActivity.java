@@ -26,7 +26,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     ArrayList<Item> selectedItem = new ArrayList<>();
 
     ArrayList<Item> myItems = new ArrayList<>();
+    ArrayList<Action> actions = new ArrayList<>();
 
     ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 case R.id.navigation_actions:
                     viewPager.setCurrentItem(2);
                     setTitleText("Actions");
-                    setupActionRecylerView();
                     return true;
             }
             return false;
@@ -307,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     "Nothing",
                     0,
                     "",
-                    R.drawable.ic_home_black_24dp,
+                    R.drawable.ic_launcher_background,
                     userId));
         }
         SetupRecyclerView();
@@ -360,20 +359,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.navigation_actions);
         selectedItem.clear();
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id.equals(itemId)) {
-                selectedItem.add(new Item(
-                        items.get(i).name,
-                        items.get(i).condition,
-                        items.get(i).id,
-                        R.drawable.ic_launcher_background,
-                        items.get(i).item_user_id)
-                );
+        for (int i = 0; i < myItems.size(); i++) {
+            if (myItems.get(i).id.equals(itemId)) {
+                selectedItem.add(myItems.get(i));
             }
         }
+        setupActionButtonRecyclerView();
     }
 
-    public void setupActionRecylerView () {
+    public void setupActionButtonRecyclerView() {
+        actions.clear();
+        actions.add(new Action("Action 1"));
+        actions.add(new Action("Action 2"));
+        RecyclerView recyclerView = findViewById(R.id.action_buttons_recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        ActionAdaptor actionAdaptor = new ActionAdaptor(actions);
+        recyclerView.setAdapter(actionAdaptor);
+        setupActionRecyclerView();
+    }
+
+    public void setupActionRecyclerView() {
         RecyclerView action_recyclerView = findViewById(R.id.action_recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         action_recyclerView.setLayoutManager(layoutManager);
