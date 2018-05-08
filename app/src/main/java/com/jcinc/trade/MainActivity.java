@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .Builder(this, barcodeDetector)
                 .setRequestedPreviewSize(1080, 1920)
                 .setRequestedFps(30.0f)
+                .setAutoFocusEnabled(true)
                 .build();
 
         //Add Event
@@ -293,8 +294,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     jsonObject.getInt("item_condition"),
                     jsonObject.getString("item_id"),
                     R.drawable.ic_launcher_background,
-                    jsonObject.getString("user")));
-
+                    jsonObject.getString("user"),
+                    jsonObject.getString("action_names"),
+                    jsonObject.getString("actions")));
         }
         for (int i = 0; i < items.size(); i++){
             if(items.get(i).item_user_id.equals(userId)){
@@ -307,7 +309,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     0,
                     "",
                     R.drawable.ic_launcher_background,
-                    userId));
+                    userId,
+                    "Action 1, Action 2",
+                    "action1, action2"));
         }
         SetupRecyclerView();
     }
@@ -364,13 +368,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 selectedItem.add(myItems.get(i));
             }
         }
-        setupActionButtonRecyclerView();
+        setupActionButtonRecyclerView(selectedItem.get(0));
     }
 
-    public void setupActionButtonRecyclerView() {
+    public void setupActionButtonRecyclerView(Item item) {
         actions.clear();
-        actions.add(new Action("Action 1"));
-        actions.add(new Action("Action 2"));
+        for (int i = 0; i < item.action_names.length; i++) {
+            actions.add(new Action(selectedItem.get(0).action_names[i]));
+        }
         RecyclerView recyclerView = findViewById(R.id.action_buttons_recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
